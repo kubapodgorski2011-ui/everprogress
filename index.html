@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101713">
+  <meta name="description" content="A private personal progress tracker. Track, improve, grow.">
+  <title>EverProgress — Track. Improve. Grow.</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="EverProgress home">
+        <img src="icon.svg" alt="" class="brand-icon">
+        <span>Ever<span class="green">Progress</span><small>TRACK · IMPROVE · GROW</small></span>
+      </a>
+      <nav class="side-nav" aria-label="Main navigation">
+        <button class="nav-btn active" data-page="home"><span>⌂</span> Home</button>
+        <button class="nav-btn" data-page="tasks"><span>✓</span> Tasks</button>
+        <button class="nav-btn" data-page="analytics"><span>▥</span> Analytics</button>
+        <button class="nav-btn" data-page="insights"><span>✦</span> Insights</button>
+        <button class="nav-btn" data-page="settings"><span>⚙</span> Settings</button>
+      </nav>
+      <div class="sidebar-note"><span class="status-dot"></span> Your data stays on this device</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><p class="eyebrow" id="today-label">YOUR JOURNEY, ONE DAY AT A TIME</p><h1 id="page-title">Dashboard</h1></div>
+        <div class="top-actions"><span class="local-pill"><span class="status-dot"></span> Local mode</span><button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">☼</button></div>
+      </header>
+
+      <section class="page active" id="page-home">
+        <div class="welcome-row"><div><h2 id="greeting">Welcome back.</h2><p class="muted">Small steps still move you forward.</p></div><input type="date" id="home-date" class="date-input" aria-label="Choose day"></div>
+        <div class="stat-grid">
+          <article class="stat-card main-stat"><div class="stat-top"><span>Completion rate</span><span class="stat-icon">↗</span></div><div class="big-number" id="completion-value">0%</div><div class="progress-track"><div class="progress-fill" id="completion-bar"></div></div><p class="muted small" id="completion-caption">0 of 0 tasks completed</p></article>
+          <article class="stat-card"><div class="stat-top"><span>Net score</span><span class="stat-icon">✦</span></div><div class="big-number" id="score-value">0</div><p class="muted small">+1 completed · −1 incomplete</p></article>
+          <article class="stat-card"><div class="stat-top"><span>Completed</span><span class="stat-icon">✓</span></div><div class="big-number green" id="done-value">0</div><p class="muted small">Tasks checked off</p></article>
+          <article class="stat-card"><div class="stat-top"><span>Still planned</span><span class="stat-icon">○</span></div><div class="big-number" id="open-value">0</div><p class="muted small">Not marked complete</p></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel">
+            <div class="panel-heading"><div><p class="eyebrow">TODAY</p><h3>Your tasks</h3></div><button class="primary-btn small-btn" id="quick-add">＋ Add task</button></div>
+            <div id="home-task-list" class="task-list"></div>
+            <button class="text-btn" data-goto="tasks">Open task manager →</button>
+          </article>
+          <article class="panel">
+            <div class="panel-heading"><div><p class="eyebrow">A QUICK LOOK</p><h3>Recent progress</h3></div><span class="mini-tag">7 days</span></div>
+            <div id="home-chart" class="chart-wrap"></div>
+            <div class="chart-legend"><span><i class="legend-dot green-bg"></i> Completion</span><span><i class="legend-dot red-bg"></i> Below 50%</span></div>
+            <div class="divider"></div>
+            <div id="daily-message" class="insight-callout"><strong>Every step counts.</strong><p>Add a few tasks to begin tracking your progress.</p></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="page" id="page-tasks">
+        <div class="section-intro"><div><h2>Make a plan that works for you.</h2><p class="muted">Tasks are saved separately for each day.</p></div><input type="date" id="tasks-date" class="date-input" aria-label="Choose task date"></div>
+        <article class="panel">
+          <div class="panel-heading"><div><p class="eyebrow">TASK MANAGER</p><h3 id="task-date-heading">Your tasks</h3></div><span class="mini-tag" id="task-count-tag">0 tasks</span></div>
+          <form id="task-form" class="task-form">
+            <label class="sr-only" for="task-title">Task name</label><input id="task-title" maxlength="100" placeholder="What would you like to work on?" required>
+            <label class="sr-only" for="task-category">Category</label><select id="task-category"><option>Learning</option><option>Health & routine</option><option>Personal growth</option><option>Responsibilities</option><option>Other</option></select>
+            <button class="primary-btn" type="submit">＋ Add task</button>
+          </form>
+          <div class="filter-row"><span class="muted small">YOUR PLAN</span><span class="muted small" id="task-summary"></span></div>
+          <div id="full-task-list" class="task-list"></div>
+          <div id="empty-tasks" class="empty-state"><span>✦</span><strong>A fresh page.</strong><p>Add a task above to start building today's plan.</p></div>
+        </article>
+      </section>
+
+      <section class="page" id="page-analytics">
+        <div class="section-intro"><div><h2>See the bigger picture.</h2><p class="muted">Progress is a pattern, not one perfect day.</p></div><div class="range-tabs"><button class="range-btn active" data-range="week">7 days</button><button class="range-btn" data-range="month">30 days</button></div></div>
+        <div class="stat-grid compact-stats">
+          <article class="stat-card"><span class="muted small">Average completion</span><div class="big-number" id="average-value">—</div></article>
+          <article class="stat-card"><span class="muted small">Tasks completed</span><div class="big-number green" id="total-done-value">0</div></article>
+          <article class="stat-card"><span class="muted small">Net points</span><div class="big-number" id="total-score-value">0</div></article>
+        </div>
+        <article class="panel"><div class="panel-heading"><div><p class="eyebrow">YOUR TREND</p><h3 id="analytics-title">Last 7 days</h3></div></div><div id="analytics-chart" class="chart-wrap large-chart"></div><p class="muted small">Days with no tasks are left out of the average rather than counted as zero.</p></article>
+        <article class="panel category-panel"><div class="panel-heading"><div><p class="eyebrow">WHERE YOUR EFFORT GOES</p><h3>By category</h3></div></div><div id="category-breakdown"></div></article>
+      </section>
+
+      <section class="page" id="page-insights">
+        <div class="section-intro"><div><h2>Learn from your patterns.</h2><p class="muted">Helpful observations, never judgement.</p></div></div>
+        <div class="insight-banner"><span class="banner-icon">✦</span><div><strong>Your progress is information, not a grade.</strong><p>EverProgress looks at the tasks you record and suggests small, practical adjustments.</p></div></div>
+        <div class="content-grid">
+          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">OBSERVATIONS</p><h3>Areas to notice</h3></div></div><div id="improvement-list"></div></article>
+          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">NEXT STEP</p><h3>Suggested focus</h3></div></div><div id="focus-list"></div></article>
+        </div>
+        <article class="panel"><div class="panel-heading"><div><p class="eyebrow">REFLECTION</p><h3>Your recent pattern</h3></div></div><div id="reflection-text" class="reflection"></div></article>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="section-intro"><div><h2>Your app, your data.</h2><p class="muted">Manage this device's local progress.</p></div></div>
+        <article class="panel settings-panel">
+          <div class="settings-row"><div><strong>Appearance</strong><p class="muted small">Switch between dark and light mode.</p></div><button class="secondary-btn" id="settings-theme">Toggle theme</button></div>
+          <div class="divider"></div>
+          <div class="settings-row"><div><strong>Export progress</strong><p class="muted small">Download a JSON backup of your tasks.</p></div><button class="secondary-btn" id="export-btn">↓ Export JSON</button></div>
+          <div class="divider"></div>
+          <div class="settings-row"><div><strong>Import progress</strong><p class="muted small">Restore a previously exported JSON backup.</p></div><label class="secondary-btn file-label">↑ Import JSON<input type="file" id="import-file" accept="application/json,.json" hidden></label></div>
+          <div class="divider"></div>
+          <div class="settings-row"><div><strong>Reset all progress</strong><p class="muted small">Permanently clear tasks stored on this device.</p></div><button class="danger-btn" id="reset-btn">Reset data</button></div>
+        </article>
+        <article class="panel about-panel"><div class="about-brand"><img src="icon.svg" alt="" class="about-icon"><div><strong>EverProgress</strong><p class="muted small">Track · Improve · Grow</p></div></div><p class="muted small">Version 1.0 · Personal, local-first progress tracker.</p><p class="muted small">Your task data is stored in this browser on this device. It is not sent to an EverProgress server.</p></article>
+        <div class="notice"><strong>Good to know:</strong> Browser storage can be cleared by device settings, browser cleanup, or uninstalling the browser/app. Export a backup regularly. This app does not automatically sync your PC and phone.</div>
+      </section>
+
+      <footer class="footer">EVERPROGRESS <span>·</span> TRACK. IMPROVE. GROW.</footer>
+    </main>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="nav-btn active" data-page="home"><span>⌂</span><small>Home</small></button>
+    <button class="nav-btn" data-page="tasks"><span>✓</span><small>Tasks</small></button>
+    <button class="nav-btn" data-page="analytics"><span>▥</span><small>Stats</small></button>
+    <button class="nav-btn" data-page="insights"><span>✦</span><small>Insights</small></button>
+    <button class="nav-btn" data-page="settings"><span>⚙</span><small>Settings</small></button>
+  </nav>
+
+  <dialog id="edit-dialog" class="edit-dialog">
+    <form method="dialog" id="edit-form">
+      <div class="panel-heading"><h3>Edit task</h3><button class="icon-btn" value="cancel" aria-label="Close">×</button></div>
+      <label for="edit-title">Task name</label><input id="edit-title" maxlength="100" required>
+      <label for="edit-category">Category</label><select id="edit-category"><option>Learning</option><option>Health & routine</option><option>Personal growth</option><option>Responsibilities</option><option>Other</option></select>
+      <div class="dialog-actions"><button class="secondary-btn" value="cancel">Cancel</button><button class="primary-btn" id="save-edit" value="default">Save changes</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
